@@ -12,7 +12,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative bg-green-100 py-20">
+    <section className="relative bg-pink-200 py-20">
       <div className="container mx-auto px-6 flex flex-col-reverse lg:flex-row items-center justify-between">
         {loading ? (
           // Loader
@@ -32,7 +32,7 @@ const Hero = () => {
               <div className="mt-6 flex justify-center lg:justify-start space-x-4">
                 <Link
                   href="/sign-up"
-                  className="px-6 py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition"
+                  className="px-6 py-3 text-white bg-green-600 rounded-lg hover:text-white hover:bg-blue-800 transition"
                 >
                   Démarrer maintenant
                 </Link>
