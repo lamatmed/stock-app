@@ -79,7 +79,7 @@ export default function AddProduct() {
         <input className="border p-2 w-full mb-2 placeholder:text-black" type="number" placeholder="Quantité" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         <input className="border p-2 w-full mb-2 placeholder:text-black"type="number" placeholder="Prix de vente" value={price_v} onChange={(e) => setPriceV(e.target.value)} />
         <input className="border p-2 w-full mb-2 placeholder:text-black" type="number" placeholder="Prix d'achat" value={price_a} onChange={(e) => setPriceA(e.target.value)} />
-        <input className="border p-2 w-full mb-2 placeholder:text-black" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+        <input className="border p-2 w-full mb-2 text-black" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
         
         <button className="bg-green-500 text-white p-2 rounded w-full mt-2" onClick={handleAddProduct}>
           Ajouter

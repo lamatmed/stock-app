@@ -139,7 +139,7 @@ export default function EditProduct({ id }: { id: string }) {
           onChange={(e) => setPriceA(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded placeholder:text-black text-black"
+          className="border p-2 w-full mb-2 rounded  text-black"
           type="date"
           value={expirationDate}
           onChange={(e) => setExpirationDate(e.target.value)}
