@@ -106,19 +106,19 @@ export default function Dashboard() {
 
       {/* Graphique des ventes */}
       <div className="bg-white p-4 rounded shadow mb-6">
-        <h2 className="text-xl font-bold mb-4">Statistiques des ventes</h2>
+        <h2 className="text-xl font-bold mb-4 text-black">Statistiques des ventes</h2>
         <canvas id="salesChart"></canvas>
       </div>
 
       {/* Liste des derniers produits */}
       <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Derniers produits ajoutés</h2>
+        <h2 className="text-xl font-bold mb-4 text-black">Derniers produits ajoutés</h2>
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="p-2 border">Nom</th>
-              <th className="p-2 border">Quantité</th>
-              <th className="p-2 border">Prix (UMR)</th>
+            <tr className="bg-sky-500">
+              <th className="p-2 border text-black">Nom</th>
+              <th className="p-2 border text-black">Quantité</th>
+              <th className="p-2 border text-black">Prix (UMR)</th>
             </tr>
           </thead>
           <tbody>

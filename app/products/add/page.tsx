@@ -74,12 +74,12 @@ export default function AddProduct() {
       <h1 className="text-2xl font-bold mb-4 text-center">Ajouter un Produit</h1>
 
       <div className="bg-white shadow-md rounded-lg p-4">
-        <input className="border p-2 w-full mb-2 rounded" placeholder="Code" value={code} onChange={(e) => setCode(e.target.value)} />
-        <input className="border p-2 w-full mb-2 rounded" placeholder="Nom" value={name} onChange={(e) => setName(e.target.value)} />
-        <input className="border p-2 w-full mb-2 rounded" type="number" placeholder="Quantité" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-        <input className="border p-2 w-full mb-2 rounded" type="number" placeholder="Prix de vente" value={price_v} onChange={(e) => setPriceV(e.target.value)} />
-        <input className="border p-2 w-full mb-2 rounded" type="number" placeholder="Prix d'achat" value={price_a} onChange={(e) => setPriceA(e.target.value)} />
-        <input className="border p-2 w-full mb-2 rounded" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded placeholder:text-black" placeholder="Code" value={code} onChange={(e) => setCode(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded placeholder:text-black" placeholder="Nom" value={name} onChange={(e) => setName(e.target.value)} />
+        <input className="border p-2 w-full mb-2 placeholder:text-black" type="number" placeholder="Quantité" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+        <input className="border p-2 w-full mb-2 placeholder:text-black"type="number" placeholder="Prix de vente" value={price_v} onChange={(e) => setPriceV(e.target.value)} />
+        <input className="border p-2 w-full mb-2 placeholder:text-black" type="number" placeholder="Prix d'achat" value={price_a} onChange={(e) => setPriceA(e.target.value)} />
+        <input className="border p-2 w-full mb-2 placeholder:text-black" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
         
         <button className="bg-green-500 text-white p-2 rounded w-full mt-2" onClick={handleAddProduct}>
           Ajouter

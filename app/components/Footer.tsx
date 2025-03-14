@@ -5,10 +5,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="fixed bottom-0 w-full py-4 bg-green-200 shadow-md">
+    <footer className="fixed bottom-0 w-full py-4 bg-green-300 shadow-md">
       <div className="flex flex-col md:flex-row items-center justify-between px-6 mx-auto max-w-7xl">
         {/* Texte Copyright */}
-        <p className="text-sm text-center md:text-left">
+        <p className="text-sm text-center md:text-left text-black">
           &copy; {currentYear} <span className="font-semibold">Stock-App</span>. Tous droits réservés.
         </p>
 

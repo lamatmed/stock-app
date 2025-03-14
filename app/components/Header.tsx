@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../public/lok.svg";
+import logo from "../../public/lok.jpg";
 import { FaSignInAlt, FaSignOutAlt,  FaBars, FaTimes, FaProductHunt } from "react-icons/fa";
 
 import { useUser, useClerk } from "@clerk/nextjs"; // ✅ Remplace useSignOut par useClerk
