@@ -56,7 +56,7 @@ export default function ProductsList() {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6 bg-white">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">📦 Liste des Produits</h1>
 
       {/* Champ de recherche */}
