@@ -104,14 +104,14 @@ export default function Home() {
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border rounded-lg">
             <thead>
-              <tr className="bg-gray-200 text-left text-sm">
-                <th className="p-2">Code</th>
-                <th className="p-2">Nom</th>
-                <th className="p-2">Qté</th>
-                <th className="p-2">Vente (UMR)</th>
-                <th className="p-2">Achat (UMR)</th>
-                <th className="p-2">Exp</th>
-                <th className="p-2 text-center">Actions</th>
+              <tr className="bg-white text-left text-sm">
+                <th className="p-2 text-black">Code</th>
+                <th className="p-2 text-black">Nom</th>
+                <th className="p-2 text-black">Qté</th>
+                <th className="p-2 text-black">Vente (UMR)</th>
+                <th className="p-2 text-black">Achat (UMR)</th>
+                <th className="p-2 text-black">Exp</th>
+                <th className="p-2 text-center text-black">Actions</th>
               </tr>
             </thead>
             <tbody>

@@ -127,10 +127,10 @@ export default function Dashboard() {
     // Vérifier et corriger l'ID
     const productId = product.id && !isNaN(Number(product.id)) ? product.id : `fallback-${index}`;
     return (
-      <tr key={productId} className="border">
-        <td className="p-2 border">{product.name}</td>
-        <td className="p-2 border text-center">{product.quantity}</td>
-        <td className="p-2 border text-center">{product.price_v}</td>
+      <tr key={productId} className="border bg-white">
+        <td className="p-2 border text-black">{product.name}</td>
+        <td className="p-2 border text-center text-black">{product.quantity}</td>
+        <td className="p-2 border text-center text-black">{product.price_v}</td>
       </tr>
     );
   })

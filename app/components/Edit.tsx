@@ -106,40 +106,40 @@ export default function EditProduct({ id }: { id: string }) {
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <input
-          className="border p-2 w-full mb-2 rounded"
+          className="border p-2 w-full mb-2 rounded placeholder:text-black "
           placeholder="Code du produit"
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded"
+          className="border p-2 w-full mb-2 rounded placeholder:text-black"
           placeholder="Nom du produit"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded"
+          className="border p-2 w-full mb-2 rounded placeholder:text-black"
           placeholder="Quantité"
           type="number"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded"
+          className="border p-2 w-full mb-2 rounded placeholder:text-black"
           placeholder="Prix de vente"
           type="number"
           value={price_v}
           onChange={(e) => setPriceV(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded"
+          className="border p-2 w-full mb-2 rounded placeholder:text-black"
           placeholder="Prix d'achat"
           type="number"
           value={price_a}
           onChange={(e) => setPriceA(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded"
+          className="border p-2 w-full mb-2 rounded placeholder:text-black"
           type="date"
           value={expirationDate}
           onChange={(e) => setExpirationDate(e.target.value)}
