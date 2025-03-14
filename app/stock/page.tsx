@@ -61,7 +61,7 @@ export default function ProductsList() {
 
       {/* Champ de recherche */}
       <input
-        className="border p-3 w-full mb-6 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="border p-3 w-full mb-6 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-black text-black"
         type="text"
         placeholder="🔍 Rechercher par code ou nom..."
         value={search}

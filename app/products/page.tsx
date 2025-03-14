@@ -78,8 +78,8 @@ export default function Home() {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Gestion des Produits</h1>
+    <div className="max-w-4xl mx-auto p-4 bg-white">
+      <h1 className="text-2xl font-bold mb-4 text-center text-black">Gestion des Produits</h1>
 
       <button 
         className="bg-blue-800 text-white p-2 rounded w-full mb-4 hover:bg-blue-600"
@@ -89,7 +89,7 @@ export default function Home() {
       </button>
 
       <input
-        className="border p-2 w-full mb-4 rounded"
+        className="border p-2 w-full mb-4 rounded text-black placeholder:text-black"
         type="text"
         placeholder="Rechercher par code ou nom..."
         value={search}
