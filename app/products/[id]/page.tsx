@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { getProductById, updateProduct } from "../actions";
 import { toast } from "react-toastify";
@@ -17,11 +15,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
   const [price_a, setPriceA] = useState("0");
   const [expirationDate, setExpirationDate] = useState("");
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-
-  const fetchProduct = async () => {
+  // Utilisation de useCallback pour éviter les erreurs de dépendances
+  const fetchProduct = useCallback(async () => {
     try {
       const product = await getProductById(id);
       if (!product || product.error) {
@@ -43,7 +38,11 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       alert("Une erreur est survenue !");
       router.push("/products");
     }
-  };
+  }, [id, router]);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [fetchProduct]); // Ajout de fetchProduct en dépendance
 
   const handleUpdate = async () => {
     if (!code || !name || !quantity || !price_v || !price_a || !expirationDate) {
@@ -54,7 +53,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       });
       return;
     }
-  
+
     try {
       const result = await Swal.fire({
         title: "Modifier le produit ?",
@@ -66,9 +65,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
       });
-  
+
       if (result.isConfirmed) {
-        // Afficher un message de chargement
         Swal.fire({
           title: "Modification en cours...",
           text: "Veuillez patienter",
@@ -77,7 +75,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
             Swal.showLoading();
           },
         });
-  
+
         await updateProduct(
           id,
           code,
@@ -87,8 +85,8 @@ export default function EditProduct({ params }: { params: { id: string } }) {
           parseFloat(price_a),
           expirationDate
         );
-  
-        Swal.close(); // Fermer le message de chargement
+
+        Swal.close();
         toast.success("Produit mis à jour avec succès !");
         router.push("/products");
       }
@@ -98,52 +96,18 @@ export default function EditProduct({ params }: { params: { id: string } }) {
       toast.error("Une erreur est survenue lors de la mise à jour !");
     }
   };
-  
 
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-center">Modifier un Produit</h1>
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-        <input
-          className="border p-2 w-full mb-2 rounded"
-          placeholder="Code du produit"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
-        <input
-          className="border p-2 w-full mb-2 rounded"
-          placeholder="Nom du produit"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          className="border p-2 w-full mb-2 rounded"
-          placeholder="Quantité"
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-        />
-        <input
-          className="border p-2 w-full mb-2 rounded"
-          placeholder="Prix de vente"
-          type="number"
-          value={price_v}
-          onChange={(e) => setPriceV(e.target.value)}
-        />
-        <input
-          className="border p-2 w-full mb-2 rounded"
-          placeholder="Prix d'achat"
-          type="number"
-          value={price_a}
-          onChange={(e) => setPriceA(e.target.value)}
-        />
-        <input
-          className="border p-2 w-full mb-2 rounded"
-          type="date"
-          value={expirationDate}
-          onChange={(e) => setExpirationDate(e.target.value)}
-        />
+        <input className="border p-2 w-full mb-2 rounded" placeholder="Code du produit" value={code} onChange={(e) => setCode(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded" placeholder="Nom du produit" value={name} onChange={(e) => setName(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded" placeholder="Quantité" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded" placeholder="Prix de vente" type="number" value={price_v} onChange={(e) => setPriceV(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded" placeholder="Prix d'achat" type="number" value={price_a} onChange={(e) => setPriceA(e.target.value)} />
+        <input className="border p-2 w-full mb-2 rounded" type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
         <button className="bg-blue-500 text-white p-2 rounded w-full" onClick={handleUpdate}>
           Modifier le produit
         </button>
