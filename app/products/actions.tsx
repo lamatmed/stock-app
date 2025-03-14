@@ -18,8 +18,35 @@ export async function getAllProducts() {
 
 
 // 🔹 Ajouter un produit
-export async function addProduct(code: string, name: string, quantity: number, price_v: number, price_a: number, expirationDate: string) {
+export async function addProduct(
+  code: string,
+  name: string,
+  quantity: number,
+  price_v: number,
+  price_a: number,
+  expirationDate: string
+) {
   try {
+    // Vérifier si le produit existe déjà avec ce code
+    const existingProduct = await prisma.product.findUnique({
+      where: { code },
+    });
+
+    if (existingProduct) {
+      return { error: "Ce code de produit existe déjà !" };
+    }
+
+    // Vérifier que le prix de vente est supérieur au prix d'achat
+    if (price_v <= price_a) {
+      return { error: "Le prix de vente doit être supérieur au prix d'achat !" };
+    }
+
+    // Vérifier que la quantité est >= 0
+    if (quantity < 0) {
+      return { error: "La quantité ne peut pas être négative !" };
+    }
+
+    // Ajouter le produit si toutes les vérifications sont OK
     await prisma.product.create({
       data: {
         code,
@@ -27,10 +54,10 @@ export async function addProduct(code: string, name: string, quantity: number, p
         quantity,
         price_v,
         price_a,
-        expirationDate: new Date(expirationDate), // Correction ici
+        expirationDate: new Date(expirationDate),
       },
     });
-    
+
     return { success: true };
   } catch (error) {
     console.error("Erreur lors de l'ajout du produit:", error);

@@ -25,11 +25,20 @@ export default function AddProduct() {
       return;
     }
   
-    if (parseInt(quantity) < 0 || parseFloat(price_v) < 0 || parseFloat(price_a) < 0) {
+    if (parseInt(quantity) < 0) {
       Swal.fire({
         icon: "error",
         title: "Valeur invalide",
-        text: "Les valeurs ne peuvent pas être négatives !",
+        text: "La quantité ne peut pas être négative !",
+      });
+      return;
+    }
+  
+    if (parseFloat(price_v) <= parseFloat(price_a)) {
+      Swal.fire({
+        icon: "error",
+        title: "Prix incorrect",
+        text: "Le prix de vente doit être supérieur au prix d'achat !",
       });
       return;
     }
@@ -56,9 +65,26 @@ export default function AddProduct() {
           },
         });
   
-        await addProduct(code, name, parseInt(quantity), parseFloat(price_v), parseFloat(price_a), expirationDate);
+        const response = await addProduct(
+          code,
+          name,
+          parseInt(quantity),
+          parseFloat(price_v),
+          parseFloat(price_a),
+          expirationDate
+        );
   
         Swal.close();
+  
+        if (response.error) {
+          Swal.fire({
+            icon: "error",
+            title: "Impossible d'ajouter",
+            text: response.error,
+          });
+          return;
+        }
+  
         toast.success("Produit ajouté avec succès !");
         router.push("/products");
       }
@@ -68,6 +94,8 @@ export default function AddProduct() {
       toast.error("Une erreur est survenue lors de l'ajout !");
     }
   };
+  
+  
   
   return (
     <div className="max-w-2xl mx-auto p-4  bg-white">
