@@ -116,13 +116,13 @@ export default function Home() {
             </thead>
             <tbody>
               {currentProducts.map((p) => (
-                <tr key={p.id} className="border-t text-sm">
-                  <td className="p-2">{p.code}</td>
-                  <td className="p-2">{p.name}</td>
-                  <td className="p-2">{p.quantity}</td>
-                  <td className="p-2">{p.price_v}</td>
-                  <td className="p-2">{p.price_a}</td>
-                  <td className="p-2">{p.expirationDate}</td>
+                <tr key={p.id} className="border-t text-sm bg-white">
+                  <td className="p-2 text-black">{p.code}</td>
+                  <td className="p-2 text-black">{p.name}</td>
+                  <td className="p-2 text-black">{p.quantity}</td>
+                  <td className="p-2 text-black">{p.price_v}</td>
+                  <td className="p-2 text-black">{p.price_a}</td>
+                  <td className="p-2 text-black">{p.expirationDate}</td>
                   <td className="p-2 flex justify-center space-x-2">
                     <button
                       className="bg-yellow-700 text-white px-3 py-1 rounded hover:bg-yellow-400"
