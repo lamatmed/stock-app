@@ -70,8 +70,8 @@ export default function AddProduct() {
   };
   
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Ajouter un Produit</h1>
+    <div className="max-w-2xl mx-auto p-4  bg-white">
+      <h1 className="text-2xl font-bold mb-4 text-center text-black">Ajouter un Produit</h1>
 
       <div className="bg-white shadow-md rounded-lg p-4">
         <input className="border p-2 w-full mb-2 rounded placeholder:text-black" placeholder="Code" value={code} onChange={(e) => setCode(e.target.value)} />
