@@ -1,4 +1,10 @@
 "use server";
+interface SaleRecord {
+  productId: string;
+  quantity: number;
+  totalPrice: number;
+  purchasePrice: number;
+}
 
 import { PrismaClient } from "@prisma/client";
 
@@ -209,44 +215,70 @@ export async function getDashboardStats() {
   }
 }
 
-// 🔹 Ajouter une vente et mettre à jour le stock
-export async function addSale(productId: string, quantity: number) {
+
+export async function addMultipleSales(salesData: { productId: string; quantity: number }[]) {
   try {
-    const product = await prisma.product.findUnique({
-      where: { id: productId },
+    const products = await prisma.product.findMany({
+      where: {
+        id: { in: salesData.map(sale => sale.productId) },
+      },
     });
 
-    if (!product) {
-      return { error: "Produit introuvable" };
-    }
+    let totalAmount = 0;
+    let purchaseTotal = 0;
+    const salesRecords: SaleRecord[] = [];
 
-    if (product.quantity < quantity) {
-      return { error: "Stock insuffisant" };
-    }
+    // Vérifier que tous les produits ont assez de stock
+    for (const sale of salesData) {
+      const product = products.find(p => p.id === sale.productId);
+      if (!product) return { error: `Produit introuvable: ${sale.productId}` };
+      if (product.quantity < sale.quantity) return { error: `Stock insuffisant pour ${product.name}` };
 
-    const totalPrice = product.price_v * quantity;
-    const purchasePrice = product.price_a * quantity;
+      const totalPrice = product.price_v * sale.quantity;
+      const purchasePrice = product.price_a * sale.quantity;
+      totalAmount += totalPrice;
+      purchaseTotal += purchasePrice;
 
-    await prisma.sale.create({
-      data: {
-        productId,
-        quantity,
+      salesRecords.push({
+        productId: sale.productId,
+        quantity: sale.quantity,
         totalPrice,
         purchasePrice,
-      },
+      });
+    }
+
+    // Création de la facture et enregistrement des ventes
+    const saleTransaction = await prisma.$transaction(async (prisma) => {
+      const invoice = await prisma.invoice.create({
+        data: {
+          totalAmount,
+          purchaseTotal,
+        },
+      });
+
+      for (const record of salesRecords) {
+        await prisma.sale.create({
+          data: {
+            ...record,
+            invoiceId: invoice.id,
+          },
+        });
+
+        await prisma.product.update({
+          where: { id: record.productId },
+          data: {
+            quantity: { decrement: record.quantity },
+          },
+        });
+      }
+
+      return invoice.id;
     });
 
-    await prisma.product.update({
-      where: { id: productId },
-      data: {
-        quantity: product.quantity - quantity,
-      },
-    });
-
-    return { success: true };
+    return { success: true, invoiceId: saleTransaction };
   } catch (error) {
-    console.error("Erreur lors de l'ajout de la vente:", error);
-    return { error: "Erreur lors de l'ajout de la vente" };
+    console.error("Erreur lors de l'ajout des ventes:", error);
+    return { error: "Erreur lors de l'ajout des ventes" };
   }
 }
 

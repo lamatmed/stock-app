@@ -33,5 +33,15 @@ model Sale {
   quantity      Int
   totalPrice    Float
   purchasePrice Float
+  invoiceId     String?
+  invoice       Invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())
+}
+model Invoice {
+  id            String  @id @default(uuid())
+  totalAmount   Float
+  purchaseTotal Float
+  createdAt     DateTime @default(now())
+
+  sales Sale[]
 }

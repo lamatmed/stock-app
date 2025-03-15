@@ -108,13 +108,13 @@ export default function Dashboard() {
           {/* Boutons rapides */}
           <div className="flex justify-center mt-6 gap-4">
             <button
-              className="bg-blue-600 text-white p-3 rounded flex items-center gap-2"
+              className="bg-blue-800 text-white p-3 rounded flex items-center gap-2 hover:bg-blue-600 "
               onClick={() => router.push("/products/add")}
             >
               Ajouter un produit
             </button>
             <button
-              className="bg-green-600 text-white p-3 rounded flex items-center gap-2"
+              className="bg-green-800 text-white p-3 rounded flex items-center gap-2 hover:bg-green-600"
               onClick={() => router.push("/sales")}
             >
               Voir les ventes
