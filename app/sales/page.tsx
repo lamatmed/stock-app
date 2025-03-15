@@ -166,17 +166,17 @@ export default function SalesPage() {
   };
   
   return (
-    <div className="container mx-auto p-4 max-w-md md:max-w-lg">
-      <h1 className="text-xl font-bold text-center mb-4">Acheter de Produits</h1>
+    <div className="container mx-auto p-4 max-w-md md:max-w-lg bg-white">
+      <h1 className="text-xl font-bold text-center mb-4 text-black">Acheter de Produits</h1>
 
       <div className="mt-4">
-        <label className="block text-sm font-semibold">Produit :</label>
+        <label className="block text-sm font-semibold text-black">Produit :</label>
         <select
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
           className="border p-2 w-full rounded-md"
         >
-          <option value="">Sélectionner un produit</option>
+          <option value="" className="text-black">Sélectionner un produit</option>
           {products.map((product) => (
             <option key={product.id} value={product.id}>
               {product.name} (Stock: {product.quantity})
@@ -186,12 +186,12 @@ export default function SalesPage() {
       </div>
 
       <div className="mt-4">
-        <label className="block text-sm font-semibold">Quantité :</label>
+        <label className="block text-sm font-semibold text-black">Quantité :</label>
         <input
           type="number"
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           min="1"
         />
       </div>
@@ -203,16 +203,16 @@ export default function SalesPage() {
         Ajouter au panier
       </button>
 
-      <h2 className="mt-8 text-lg font-bold text-center">Panier</h2>
+      <h2 className="mt-8 text-lg font-bold text-center text-black">Panier</h2>
       {cart.length > 0 && (
-        <div className="border p-4 rounded-md bg-gray-50">
+        <div className="border p-4 rounded-md bg-white">
           {cart.map((item, index) => (
             <div key={index} className="flex justify-between items-center mb-2">
-              <p className="text-sm">{item.productName} - {item.quantity} x {item.unitPrice} MRU = {item.totalPrice} MRU</p>
+              <p className="text-sm text-black">{item.productName} - {item.quantity} x {item.unitPrice} MRU = {item.totalPrice} MRU</p>
               <button onClick={() => removeFromCart(index)} className="bg-red-500 text-white px-2 py-1 rounded">X</button>
             </div>
           ))}
-          <p className="font-bold mt-2">Total: {cart.reduce((sum, item) => sum + item.totalPrice, 0)} MRU</p>
+          <p className="font-bold mt-2 text-black">Total: {cart.reduce((sum, item) => sum + item.totalPrice, 0)} MRU</p>
         </div>
       )}
 

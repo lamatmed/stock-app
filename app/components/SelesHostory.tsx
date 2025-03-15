@@ -44,8 +44,8 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
   };
 
   return (
-    <div className="mt-6">
-      <h2 className="text-lg font-bold mb-2">Historique des ventes</h2>
+    <div className="mt-6 bg-white">
+      <h2 className="text-lg font-bold mb-2 text-black">Historique des ventes</h2>
 
       {loading ? (
        
@@ -53,30 +53,30 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
      
       ) : (
         <>
-          <table className="min-w-full border-collapse border border-gray-300">
+          <table className="min-w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-200">
-                <th className="border p-2">Produit</th>
-                <th className="border p-2">Quantité</th>
-                <th className="border p-2">Prix total</th>
-                <th className="border p-2">Date</th>
+              <tr className="bg-white">
+                <th className="border p-2 text-black">Produit</th>
+                <th className="border p-2 text-black">Quantité</th>
+                <th className="border p-2 text-black">Prix total</th>
+                <th className="border p-2 text-black">Date</th>
               </tr>
             </thead>
             <tbody>
               {currentSales.length > 0 ? (
                 currentSales.map((sale) => (
                   <tr key={sale.id} className="border">
-                    <td className="border p-2">{sale.productName}</td>
-                    <td className="border p-2">{sale.quantity}</td>
-                    <td className="border p-2">{sale.totalPrice} MRU</td>
-                    <td className="border p-2">
+                    <td className="border p-2 text-black">{sale.productName}</td>
+                    <td className="border p-2 text-black">{sale.quantity}</td>
+                    <td className="border p-2 text-black">{sale.totalPrice} MRU</td>
+                    <td className="border p-2 text-black">
                       {new Date(sale.createdAt).toLocaleString()}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="p-2 text-center">
+                  <td colSpan={4} className="p-2 text-center text-black">
                     Aucune vente enregistrée.
                   </td>
                 </tr>
@@ -89,17 +89,17 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
             <button
               onClick={prevPage}
               disabled={currentPage === 1}
-              className={`px-4 py-2 bg-gray-300 rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-400"}`}
+              className={`px-4 py-2 bg-blue-900 text-white rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"}`}
             >
               Précédent
             </button>
-            <span className="text-lg font-bold">
+            <span className="text-lg font-bold text-black">
               Page {currentPage} / {Math.ceil(sales.length / itemsPerPage)}
             </span>
             <button
               onClick={nextPage}
               disabled={currentPage === Math.ceil(sales.length / itemsPerPage)}
-              className={`px-4 py-2 bg-gray-300 rounded ${currentPage === Math.ceil(sales.length / itemsPerPage) ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-400"}`}
+              className={`px-4 py-2 bg-blue-900 text-white rounded ${currentPage === Math.ceil(sales.length / itemsPerPage) ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"}`}
             >
               Suivant
             </button>
