@@ -108,8 +108,8 @@ export default function Home() {
                 <th className="p-2 text-black">Code</th>
                 <th className="p-2 text-black">Nom</th>
                 <th className="p-2 text-black">Qté</th>
-                <th className="p-2 text-black">Vente (UMR)</th>
-                <th className="p-2 text-black">Achat (UMR)</th>
+                <th className="p-2 text-black">Vente (MRU)</th>
+                <th className="p-2 text-black">Achat (MRU)</th>
                 <th className="p-2 text-black">Exp</th>
                 <th className="p-2 text-center text-black">Actions</th>
               </tr>

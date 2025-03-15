@@ -48,7 +48,7 @@ export default function Dashboard() {
       new Chart(ctx, {
         type: "bar",
         data: {
-          labels: ["Produits", "Ventes", "Gains (UMR)", "Commandes"],
+          labels: ["Produits", "Ventes", "Gains (MRU)", "Commandes"],
           datasets: [
             {
               label: "Statistiques",
@@ -86,14 +86,14 @@ export default function Dashboard() {
             <div className="bg-green-500 text-white p-4 rounded flex items-center justify-between">
               <FaShoppingCart size={32} />
               <div>
-                <h2 className="text-2xl font-semibold">{stats?.totalSales ?? 0}</h2>
+                <h2 className="text-2xl font-semibold">{stats?.totalSales ?? 0}  MRU</h2>
                 <p>Ventes réalisées</p>
               </div>
             </div>
             <div className="bg-yellow-500 text-white p-4 rounded flex items-center justify-between">
               <FaDollarSign size={32} />
               <div>
-                <h2 className="text-2xl font-semibold">{stats?.totalProfit ?? 0} UMR</h2>
+                <h2 className="text-2xl font-semibold">{stats?.totalProfit ?? 0} MRU</h2>
                 <p>Gains totaux</p>
               </div>
             </div>
