@@ -3,12 +3,13 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/lok.jpg";
-import { FaSignInAlt, FaSignOutAlt,  FaBars, FaTimes, FaProductHunt } from "react-icons/fa";
+import { FaSignInAlt, FaSignOutAlt,  FaBars, FaTimes, FaProductHunt, FaFileInvoiceDollar } from "react-icons/fa";
 
 import { useUser, useClerk } from "@clerk/nextjs"; // ✅ Remplace useSignOut par useClerk
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdAddBox, MdProductionQuantityLimits } from "react-icons/md";
 import { FaCartShopping } from "react-icons/fa6";
+import { FcAbout } from "react-icons/fc";
 
 const Header = () => {
   const { user } = useUser();
@@ -36,9 +37,16 @@ const Header = () => {
                     <Link href="/products" className="px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
                     <FaProductHunt />Produits
                     </Link>
+                    <Link href="/commandes" className="px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
+                    <FaFileInvoiceDollar  />Commandes
+                    </Link>
                     <Link href="/products/add" className="px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
                     <MdAddBox />Ajouter produit
                     </Link>
+                    <Link href="/about" className="px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
+                    <FcAbout />Infos
+                    </Link>
+                    
                   </>
                 )}
               </div>
@@ -96,8 +104,15 @@ const Header = () => {
                 <Link href='/products' className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>
                 <FaProductHunt className="inline mr-1"  />Produits
                 </Link>
+                <Link href='/commandes' className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>
+                <FaFileInvoiceDollar  className="inline mr-1"  />Commandes
+                </Link>
                 <Link href='/products/add' className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>
                 <MdAddBox className="inline mr-1" /> Ajouter produit
+                </Link>
+               
+                <Link href='/about' className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>
+                <FcAbout   className="inline mr-1 "  />Infos
                 </Link>
               </>
             )}

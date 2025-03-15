@@ -303,3 +303,30 @@ export async function getSalesHistory() {
     return [];
   }
 }
+export async function getInvoiceHistory() {
+  try {
+    const invoices = await prisma.invoice.findMany({
+      include: {
+        sales: {
+          include: { product: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return invoices.map((invoice) => ({
+      id: invoice.id,
+      totalAmount: invoice.totalAmount,
+      purchaseTotal: invoice.purchaseTotal,
+      createdAt: invoice.createdAt.toISOString(),
+      sales: invoice.sales.map((sale) => ({
+        productName: sale.product.name,
+        quantity: sale.quantity,
+        totalPrice: sale.totalPrice,
+      })),
+    }));
+  } catch (error) {
+    console.error("Erreur lors de la récupération des factures:", error);
+    return [];
+  }
+}
