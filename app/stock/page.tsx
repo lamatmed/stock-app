@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { FaBarcode, FaBox, FaMoneyBillWave, FaCalendarAlt, FaCubes } from "react-icons/fa";
 import Loader from "../components/Loader";
-import { getAllProducts } from "../products/actions";
+import { getAllProducts } from "../utils/actions";
 import Image from "next/image";
 
 type Product = {

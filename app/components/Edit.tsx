@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Image from "next/image";
-import { getProductById, updateProduct } from "../products/actions";
+import { getProductById, updateProduct } from "../utils/actions";
 import Uploader from "./Uploader";
 
 export default function EditProduct({ id }: { id: string }) {

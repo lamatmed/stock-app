@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAllProducts, deleteProduct } from "./actions";
+import { getAllProducts, deleteProduct } from "../utils/actions";
 import { useRouter } from "next/navigation";
 import Loader from "../components/Loader";
 import { MdOutlineDelete } from "react-icons/md";

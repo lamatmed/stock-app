@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaBox, FaShoppingCart, FaDollarSign } from "react-icons/fa";
-import { getDashboardStats } from "../products/actions";
+import { getDashboardStats } from "../utils/actions";
 import Chart from "chart.js/auto";
 import Loader from "../components/Loader";
 

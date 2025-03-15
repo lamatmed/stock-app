@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addProduct } from "../actions";
+import { addProduct } from "../../utils/actions";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import Uploader from "@/app/components/Uploader";

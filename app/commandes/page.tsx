@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import { FaFileInvoice, FaBox, FaCalendarAlt, FaDollarSign, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { getInvoiceHistory } from "../products/actions";
+import { getInvoiceHistory } from "../utils/actions";
 import Loader from "../components/Loader";
 
 type Sale = {

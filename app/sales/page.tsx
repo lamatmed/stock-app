@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useEffect } from "react";
-import { addMultipleSales, getAllProducts, getSalesHistory } from "../products/actions";
+import { addMultipleSales, getAllProducts, getSalesHistory } from "../utils/actions";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "react-toastify";
