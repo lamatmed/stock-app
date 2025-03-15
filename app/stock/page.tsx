@@ -86,7 +86,7 @@ export default function ProductsList() {
   alt={p.name || "Image du produit"} 
   width={150}
   height={150}
-  className="w-full h-32 object-cover rounded-md mb-3"
+  className="w-full sm:w-32 h-32 sm:h-32 object-cover rounded-md mb-3"
 />
 
 
