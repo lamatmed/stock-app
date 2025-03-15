@@ -29,7 +29,7 @@ export default function Uploader({ onUpload }: UploaderProps) {
     alt="Image du produit"
     width={150}
     height={150}
-    className="w-full max-w-[150px] h-auto object-cover rounded-md"
+   className="w-full sm:w-32 h-32 sm:h-32 object-cover rounded-md mb-3"
     priority // ⚡ Charge l'image plus rapidement
     unoptimized // Désactive l'optimisation si l'image est externe
   />

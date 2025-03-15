@@ -140,6 +140,20 @@ export default function Home() {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+  <tr className="border-t font-bold bg-white">
+    <td className="p-2 text-black">Total</td>
+    <td className="p-2"></td>
+    <td className="p-2 text-black">{filteredProducts.reduce((acc, p) => acc + p.quantity, 0)}</td>
+    <td className="p-2"></td>
+    <td className="p-2 text-black">
+      {filteredProducts.reduce((acc, p) => acc + p.price_a * p.quantity, 0)} MRU
+    </td>
+    <td className="p-2"> </td>
+    <td className="p-2"></td>
+  </tr>
+</tfoot>
+
           </table>
         </div>
       )}
