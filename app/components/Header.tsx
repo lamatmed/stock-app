@@ -8,6 +8,7 @@ import { FaSignInAlt, FaSignOutAlt,  FaBars, FaTimes, FaProductHunt } from "reac
 import { useUser, useClerk } from "@clerk/nextjs"; // ✅ Remplace useSignOut par useClerk
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdAddBox, MdProductionQuantityLimits } from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
 
 const Header = () => {
   const { user } = useUser();
@@ -26,6 +27,9 @@ const Header = () => {
               <div className="flex items-baseline ml-10 space-x-4">
                 <Link href="/stock" className="px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
                 <MdProductionQuantityLimits />Stock
+                </Link>
+                <Link href="/sales" className="px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
+                <FaCartShopping />Shopping
                 </Link>
                 {user && (
                   <>
@@ -84,6 +88,9 @@ const Header = () => {
             <Link href='/stock' className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>
             <MdProductionQuantityLimits  className="inline mr-1"  />Stock
             </Link>
+            <Link href="/sales" className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>
+                <FaCartShopping className="inline mr-1"  />Shopping
+                </Link>
             {user && (
               <>
                 <Link href='/products' className='block px-3 py-2 text-base font-medium text-gray-800 rounded-md hover:bg-gray-700 hover:text-white'>

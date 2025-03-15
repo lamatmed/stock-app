@@ -167,7 +167,7 @@ export default function SalesPage() {
   
   return (
     <div className="container mx-auto p-4 max-w-md md:max-w-lg">
-      <h1 className="text-xl font-bold text-center mb-4">Vente de Produits</h1>
+      <h1 className="text-xl font-bold text-center mb-4">Acheter de Produits</h1>
 
       <div className="mt-4">
         <label className="block text-sm font-semibold">Produit :</label>
@@ -221,7 +221,7 @@ export default function SalesPage() {
         className="mt-4 bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600 transition"
         disabled={loading}
       >
-         {loading ? "Vente en cours..." : "Vendre"}
+         {loading ? "Vente en cours..." : "Acheter"}
       </button>
 
       <button 

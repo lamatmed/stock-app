@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Loader from "./Loader";
 
 interface Sale {
   id: string;
@@ -47,7 +48,9 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
       <h2 className="text-lg font-bold mb-2">Historique des ventes</h2>
 
       {loading ? (
-        <p className="text-center text-blue-500">Chargement des ventes...</p>
+       
+          <Loader/>
+     
       ) : (
         <>
           <table className="min-w-full border-collapse border border-gray-300">
