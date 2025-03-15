@@ -45,7 +45,7 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
 
   return (
     <div className="mt-6 bg-white">
-      <h2 className="text-lg font-bold mb-2 text-black">Historique des ventes</h2>
+  
 
       {loading ? (
        

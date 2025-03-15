@@ -174,7 +174,7 @@ export default function SalesPage() {
         <select
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
         >
           <option value="" className="text-black">Sélectionner un produit</option>
           {products.map((product) => (
@@ -231,7 +231,7 @@ export default function SalesPage() {
         Télécharger la facture PDF
       </button>
 
-      <h2 className="mt-8 text-lg font-bold text-center">Historique des Ventes</h2>
+      <h2 className="mt-8 text-lg font-bold text-center text-black">Historique des Ventes</h2>
       <SalesHistory sales={salesHistory} />
     </div>
   );
