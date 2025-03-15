@@ -38,7 +38,7 @@ export default function SalesPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
-  
+  const [showSalesHistory, setShowSalesHistory] = useState(false);
   const [loading, setLoading] = useState(false);
   
   useEffect(() => {
@@ -231,8 +231,21 @@ export default function SalesPage() {
         Télécharger la facture PDF
       </button>
 
-      <h2 className="mt-8 text-lg font-bold text-center text-black">Historique des Ventes</h2>
-      <SalesHistory sales={salesHistory} />
+      <div className="py-4">
+    <button 
+      className="bg-gray-800 text-white p-2 rounded w-full mb-4 hover:bg-gray-600"
+      onClick={() => setShowSalesHistory(!showSalesHistory)}
+    >
+      {showSalesHistory ? "Masquer l'historique" : "Afficher l'historique"}
+    </button>
+
+    {showSalesHistory && (
+      <>
+        <h2 className="mt-8 text-lg font-bold text-center text-black">Historique des Ventes</h2>
+        <SalesHistory sales={salesHistory} />
+      </>
+    )}
+  </div>
     </div>
   );
 }
