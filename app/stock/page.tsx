@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { FaBarcode, FaBox, FaMoneyBillWave, FaCalendarAlt, FaCubes } from "react-icons/fa";
 import Loader from "../components/Loader";
 import { getAllProducts } from "../products/actions";
+import Image from "next/image";
 
 type Product = {
   id: string;
@@ -13,6 +14,7 @@ type Product = {
   price_v: number;
   price_a: number;
   expirationDate: string;
+   imageUrl ?: string; // ✅ Ajout du champ image (optionnel)
 };
 
 export default function ProductsList() {
@@ -33,7 +35,9 @@ export default function ProductsList() {
     const formattedData = data.map((product) => ({
       ...product,
       expirationDate: new Date(product.expirationDate).toISOString().split("T")[0],
+      imageUrl: product.imageUrl ?? undefined, // ✅ Convertit null en undefined
     }));
+    
     setProducts(formattedData);
     setFilteredProducts(formattedData);
     setLoading(false);
@@ -76,6 +80,17 @@ export default function ProductsList() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {currentProducts.map((p) => (
             <div key={p.id} className="bg-white rounded-xl shadow-lg p-5 transition-transform transform hover:scale-105 hover:shadow-xl">
+              {/* ✅ Affichage de l'image si disponible */}
+              <Image
+  src={p.imageUrl && p.imageUrl !== "null" && p.imageUrl !== "undefined" ? p.imageUrl : "/default.jpeg"} 
+  alt={p.name || "Image du produit"} 
+  width={150}
+  height={150}
+  className="w-full h-32 object-cover rounded-md mb-3"
+/>
+
+
+              
               <h2 className="text-xl font-semibold text-gray-800 flex items-center">
                 <FaBox className="text-blue-500 mr-2" /> {p.name}
               </h2>

@@ -22,7 +22,7 @@ model Product {
   price_a        Float
   expirationDate DateTime
   createdAt      DateTime @default(now())
-  // Relation avec les ventes
+  imageUrl       String?  // Image optionnelle
   sales          Sale[]
 }
 

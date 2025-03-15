@@ -7,15 +7,23 @@ const prisma = new PrismaClient();
 // 🔹 Récupérer tous les produits
 export async function getAllProducts() {
   try {
-    return await prisma.product.findMany({});
+    return await prisma.product.findMany({
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        quantity: true,
+        price_v: true,
+        price_a: true,
+        expirationDate: true,
+        imageUrl: true, // Ajout de l'image
+      },
+    });
   } catch (error) {
     console.error("Erreur lors de la récupération des produits:", error);
     return [];
-  } finally {
-    await prisma.$disconnect(); // Ajout pour éviter les erreurs de connexion
   }
 }
-
 
 // 🔹 Ajouter un produit
 export async function addProduct(
@@ -24,10 +32,10 @@ export async function addProduct(
   quantity: number,
   price_v: number,
   price_a: number,
-  expirationDate: string
+  expirationDate: string,
+  imageUrl: string // Ajout de l'image
 ) {
   try {
-    // Vérifier si le produit existe déjà avec ce code
     const existingProduct = await prisma.product.findUnique({
       where: { code },
     });
@@ -36,17 +44,14 @@ export async function addProduct(
       return { error: "Ce code de produit existe déjà !" };
     }
 
-    // Vérifier que le prix de vente est supérieur au prix d'achat
     if (price_v <= price_a) {
       return { error: "Le prix de vente doit être supérieur au prix d'achat !" };
     }
 
-    // Vérifier que la quantité est >= 0
     if (quantity < 0) {
       return { error: "La quantité ne peut pas être négative !" };
     }
 
-    // Ajouter le produit si toutes les vérifications sont OK
     await prisma.product.create({
       data: {
         code,
@@ -55,6 +60,7 @@ export async function addProduct(
         price_v,
         price_a,
         expirationDate: new Date(expirationDate),
+        imageUrl, // Stocker l'image
       },
     });
 
@@ -65,7 +71,17 @@ export async function addProduct(
   }
 }
 
-export async function updateProduct(id: string, code: string, name: string, quantity: number, price_v: number, price_a: number, expirationDate: string) {
+// 🔹 Modifier un produit
+export async function updateProduct(
+  id: string,
+  code: string,
+  name: string,
+  quantity: number,
+  price_v: number,
+  price_a: number,
+  expirationDate: string,
+  imageUrl: string // Mise à jour de l'image
+) {
   try {
     await prisma.product.update({
       where: { id },
@@ -75,17 +91,17 @@ export async function updateProduct(id: string, code: string, name: string, quan
         quantity,
         price_v,
         price_a,
-        expirationDate: new Date(expirationDate), // Correction ici
+        expirationDate: new Date(expirationDate),
+        imageUrl, // Mise à jour de l'image
       },
     });
-    
+
     return { success: true };
   } catch (error) {
     console.error("Erreur lors de la modification du produit:", error);
     return { error: "Erreur lors de la modification du produit" };
   }
 }
-
 
 // 🔹 Supprimer un produit
 export async function deleteProduct(id: string) {
@@ -99,11 +115,23 @@ export async function deleteProduct(id: string) {
     return { error: "Erreur lors de la suppression du produit" };
   }
 }
+
 // 🔹 Récupérer un produit par son ID
 export async function getProductById(id: string) {
   try {
     const product = await prisma.product.findUnique({
       where: { id },
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        quantity: true,
+        price_v: true,
+        price_a: true,
+        expirationDate: true,
+        createdAt: true,
+        imageUrl: true, // Ajout de l'image
+      },
     });
 
     if (!product) {
@@ -111,13 +139,8 @@ export async function getProductById(id: string) {
     }
 
     return {
-      id: product.id,
-      code: product.code,
-      name: product.name,
-      quantity: product.quantity,
-      price_v: product.price_v,
-      price_a: product.price_a,
-      expirationDate: product.expirationDate.toISOString(), // Conversion en string
+      ...product,
+      expirationDate: product.expirationDate.toISOString(),
       createdAt: product.createdAt.toISOString(),
     };
   } catch (error) {
@@ -126,11 +149,22 @@ export async function getProductById(id: string) {
   }
 }
 
+// 🔹 Récupérer les 5 derniers produits ajoutés
 export async function getLatestProducts() {
   try {
     const latestProducts = await prisma.product.findMany({
       orderBy: { createdAt: "desc" },
-      take: 5, // Récupérer les 5 derniers produits
+      take: 5,
+      select: {
+        id: true,
+        code: true,
+        name: true,
+        quantity: true,
+        price_v: true,
+        price_a: true,
+        expirationDate: true,
+        imageUrl: true, // Ajout de l'image
+      },
     });
 
     return latestProducts;
@@ -140,7 +174,7 @@ export async function getLatestProducts() {
   }
 }
 
-
+// 🔹 Récupérer les statistiques du dashboard
 export async function getDashboardStats() {
   try {
     const totalProducts = await prisma.product.count();
@@ -152,7 +186,6 @@ export async function getDashboardStats() {
       },
     });
 
-    // Calcul du total des ventes et des bénéfices
     const totalSales = sales.reduce((sum, sale) => sum + sale.totalPrice, 0);
     const totalPurchaseCost = sales.reduce((sum, sale) => sum + sale.purchasePrice, 0);
     const totalProfit = totalSales - totalPurchaseCost;
@@ -176,6 +209,7 @@ export async function getDashboardStats() {
   }
 }
 
+// 🔹 Ajouter une vente et mettre à jour le stock
 export async function addSale(productId: string, quantity: number) {
   try {
     const product = await prisma.product.findUnique({
@@ -202,7 +236,6 @@ export async function addSale(productId: string, quantity: number) {
       },
     });
 
-    // Mise à jour du stock du produit
     await prisma.product.update({
       where: { id: productId },
       data: {
@@ -216,10 +249,12 @@ export async function addSale(productId: string, quantity: number) {
     return { error: "Erreur lors de l'ajout de la vente" };
   }
 }
+
+// 🔹 Récupérer l'historique des ventes
 export async function getSalesHistory() {
   try {
     const sales = await prisma.sale.findMany({
-      include: { product: true }, // Récupérer aussi les infos du produit
+      include: { product: true },
       orderBy: { createdAt: "desc" },
     });
 

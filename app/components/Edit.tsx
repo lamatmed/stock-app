@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-;
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import Image from "next/image";
 import { getProductById, updateProduct } from "../products/actions";
 
 export default function EditProduct({ id }: { id: string }) {
@@ -16,6 +16,7 @@ export default function EditProduct({ id }: { id: string }) {
   const [price_v, setPriceV] = useState("0");
   const [price_a, setPriceA] = useState("0");
   const [expirationDate, setExpirationDate] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // ✅ Ajout de l'image
 
   useEffect(() => {
     fetchProduct();
@@ -24,12 +25,13 @@ export default function EditProduct({ id }: { id: string }) {
   const fetchProduct = async () => {
     try {
       const product = await getProductById(id);
-      if (!product || product.error) {
+      
+      if (!product || "error" in product) {
         alert("Produit non trouvé !");
         router.push("/products");
         return;
       }
-
+  
       setCode(product.code || "");
       setName(product.name || "");
       setQuantity(product.quantity?.toString() || "0");
@@ -38,12 +40,14 @@ export default function EditProduct({ id }: { id: string }) {
       setExpirationDate(
         product.expirationDate ? new Date(product.expirationDate).toISOString().split("T")[0] : ""
       );
+      setImageUrl(product.imageUrl || "");
     } catch (error) {
       console.error("Erreur lors de la récupération du produit :", error);
       alert("Une erreur est survenue !");
       router.push("/products");
     }
   };
+  
 
   const handleUpdate = async () => {
     if (!code || !name || !quantity || !price_v || !price_a || !expirationDate) {
@@ -54,7 +58,7 @@ export default function EditProduct({ id }: { id: string }) {
       });
       return;
     }
-  
+
     try {
       const result = await Swal.fire({
         title: "Modifier le produit ?",
@@ -66,18 +70,17 @@ export default function EditProduct({ id }: { id: string }) {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
       });
-  
+
       if (result.isConfirmed) {
-        // Afficher un message de chargement
         Swal.fire({
           title: "Modification en cours...",
           text: "Veuillez patienter",
           allowOutsideClick: false,
           didOpen: () => {
-            Swal.showLoading();
+            Swal.showLoading(Swal.getConfirmButton());
           },
         });
-  
+
         await updateProduct(
           id,
           code,
@@ -85,10 +88,11 @@ export default function EditProduct({ id }: { id: string }) {
           parseInt(quantity),
           parseFloat(price_v),
           parseFloat(price_a),
-          expirationDate
+          expirationDate,
+          imageUrl // ✅ Ajout de l'image à l'update
         );
-  
-        Swal.close(); // Fermer le message de chargement
+
+        Swal.close();
         toast.success("Produit mis à jour avec succès !");
         router.push("/products");
       }
@@ -98,15 +102,25 @@ export default function EditProduct({ id }: { id: string }) {
       toast.error("Une erreur est survenue lors de la mise à jour !");
     }
   };
-  
 
   return (
     <div className="max-w-2xl mx-auto p-4 bg-white">
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Modifier un Produit</h1>
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+        {/* ✅ Affichage de l'image actuelle */}
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt="Image du produit"
+            width={150}
+            height={150}
+            className="w-full h-32 object-cover rounded-md mb-3"
+          />
+        )}
+
         <input
-          className="border p-2 w-full mb-2 rounded placeholder:text-black text-black "
+          className="border p-2 w-full mb-2 rounded placeholder:text-black text-black"
           placeholder="Code du produit"
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -139,11 +153,20 @@ export default function EditProduct({ id }: { id: string }) {
           onChange={(e) => setPriceA(e.target.value)}
         />
         <input
-          className="border p-2 w-full mb-2 rounded  text-black"
+          className="border p-2 w-full mb-2 rounded text-black"
           type="date"
           value={expirationDate}
           onChange={(e) => setExpirationDate(e.target.value)}
         />
+        
+        {/* ✅ Champ pour modifier l'image */}
+        <input
+          className="border p-2 w-full mb-2 rounded placeholder:text-black text-black"
+          placeholder="URL de l'image"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+
         <button className="bg-blue-500 text-white p-2 rounded w-full" onClick={handleUpdate}>
           Modifier le produit
         </button>
