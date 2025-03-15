@@ -186,9 +186,7 @@ export default function EditProduct({ id }: { id: string }) {
         <div className="mb-4">
           <label className="block font-semibold text-gray-700">Image :</label>
           <Uploader onUpload={(url) => setImageUrl(url)} />
-          {imageUrl && (
-            <img src={imageUrl} alt="Produit" className="w-full h-32 object-cover rounded-md mt-2" />
-          )}
+       
         </div>
 
         <button className="bg-blue-500 text-white p-2 rounded w-full" onClick={handleUpdate}>

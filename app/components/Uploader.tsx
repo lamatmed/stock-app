@@ -11,7 +11,7 @@ export default function Uploader({ onUpload }: UploaderProps) {
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
 
   return (
-    <div className="mb-2 text-black">
+    <div className="mb-4 text-black text-center">
       <UploadButton<OurFileRouter,"imageUploader">
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
@@ -21,7 +21,7 @@ export default function Uploader({ onUpload }: UploaderProps) {
           }
         }}
         onUploadError={(error) => alert(`Erreur d'upload: ${error.message}`)}
-        className="bg-black hover:bg-blue-700 text-white"
+         className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full sm:w-auto text-sm"
       />
      {uploadedUrl && (
   <Image
@@ -29,7 +29,7 @@ export default function Uploader({ onUpload }: UploaderProps) {
     alt="Image du produit"
     width={150}
     height={150}
-    className="w-full h-32 object-cover rounded-md mb-3"
+    className="w-full max-w-[150px] h-auto object-cover rounded-md"
     priority // ⚡ Charge l'image plus rapidement
     unoptimized // Désactive l'optimisation si l'image est externe
   />
