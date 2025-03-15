@@ -61,7 +61,7 @@ export default function InvoicesPage() {
                 <FaDollarSign className="mr-2 text-green-500" />
                 Montant Total: <strong className="ml-1">{invoice.totalAmount.toFixed(2)} MRU</strong>
               </p>
-              <h3 className="text-lg font-semibold mt-2">Produits:</h3>
+              <h3 className="text-lg font-semibold mt-2 text-black">Produits:</h3>
               <ul className="ml-4 list-disc">
                 {invoice.sales.map((sale, index) => (
                   <li key={index} className="text-gray-700 flex items-center">
@@ -85,7 +85,7 @@ export default function InvoicesPage() {
               <FaArrowLeft className="mr-2" /> Précédent
             </button>
 
-            <span className="text-lg font-semibold">{currentPage}</span>
+            <span className="text-lg font-semibold text-black">{currentPage}</span>
 
             <button
               onClick={() => setCurrentPage((prev) => (indexOfLastInvoice < invoices.length ? prev + 1 : prev))}
