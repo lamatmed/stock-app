@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: true, // Active les actions serveur
+  },
   images: {
     remotePatterns: [
       {
@@ -13,9 +16,6 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
-  experimental: {
-    serverActions: true, // Active les routes API Next.js
-  },
 };
 
 module.exports = nextConfig;
