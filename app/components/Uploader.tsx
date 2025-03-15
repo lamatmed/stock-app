@@ -23,9 +23,17 @@ export default function Uploader({ onUpload }: UploaderProps) {
         onUploadError={(error) => alert(`Erreur d'upload: ${error.message}`)}
         className="bg-black hover:bg-blue-700 text-white"
       />
-      {uploadedUrl && <Image src={uploadedUrl} alt="Aperçu"  width={300} // Remplace par la largeur de ton image
-  height={200} // Remplace par la hauteur de ton image
-  priority />}
+     {uploadedUrl && (
+  <Image
+    src={uploadedUrl}
+    alt="Image du produit"
+    width={150}
+    height={150}
+    className="w-full h-32 object-cover rounded-md mb-3"
+    priority // ⚡ Charge l'image plus rapidement
+    unoptimized // Désactive l'optimisation si l'image est externe
+  />
+)}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -22,10 +22,10 @@ export default function EditProduct({ id }: { id: string }) {
     fetchProduct();
   }, []);
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     try {
       const product = await getProductById(id);
-      
+  
       if (!product || "error" in product) {
         alert("Produit non trouvé !");
         router.push("/products");
@@ -46,7 +46,11 @@ export default function EditProduct({ id }: { id: string }) {
       alert("Une erreur est survenue !");
       router.push("/products");
     }
-  };
+  }, [id, router]);
+  
+  useEffect(() => {
+    fetchProduct();
+  }, [fetchProduct]);
   
 
   const handleUpdate = async () => {
