@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -6,6 +7,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { getProductById, updateProduct } from "../products/actions";
+import Uploader from "./Uploader";
 
 export default function EditProduct({ id }: { id: string }) {
   const router = useRouter();
@@ -16,7 +18,8 @@ export default function EditProduct({ id }: { id: string }) {
   const [price_v, setPriceV] = useState("0");
   const [price_a, setPriceA] = useState("0");
   const [expirationDate, setExpirationDate] = useState("");
-  const [imageUrl, setImageUrl] = useState(""); // ✅ Ajout de l'image
+  const [imageUrl, setImageUrl] = useState(""); 
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetchProduct();
@@ -25,13 +28,13 @@ export default function EditProduct({ id }: { id: string }) {
   const fetchProduct = useCallback(async () => {
     try {
       const product = await getProductById(id);
-  
+
       if (!product || "error" in product) {
         alert("Produit non trouvé !");
         router.push("/products");
         return;
       }
-  
+
       setCode(product.code || "");
       setName(product.name || "");
       setQuantity(product.quantity?.toString() || "0");
@@ -47,11 +50,10 @@ export default function EditProduct({ id }: { id: string }) {
       router.push("/products");
     }
   }, [id, router]);
-  
+
   useEffect(() => {
     fetchProduct();
   }, [fetchProduct]);
-  
 
   const handleUpdate = async () => {
     if (!code || !name || !quantity || !price_v || !price_a || !expirationDate) {
@@ -85,6 +87,25 @@ export default function EditProduct({ id }: { id: string }) {
           },
         });
 
+        let finalImageUrl = imageUrl;
+
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append("file", imageFile);
+
+          const response = await fetch("/api/uploadhing", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            finalImageUrl = data.imageUrl;
+          } else {
+            throw new Error("Erreur lors de l'upload de l'image");
+          }
+        }
+
         await updateProduct(
           id,
           code,
@@ -93,7 +114,7 @@ export default function EditProduct({ id }: { id: string }) {
           parseFloat(price_v),
           parseFloat(price_a),
           expirationDate,
-          imageUrl // ✅ Ajout de l'image à l'update
+          finalImageUrl
         );
 
         Swal.close();
@@ -112,7 +133,6 @@ export default function EditProduct({ id }: { id: string }) {
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Modifier un Produit</h1>
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-        {/* ✅ Affichage de l'image actuelle */}
         {imageUrl && (
           <Image
             src={imageUrl}
@@ -162,14 +182,14 @@ export default function EditProduct({ id }: { id: string }) {
           value={expirationDate}
           onChange={(e) => setExpirationDate(e.target.value)}
         />
-        
-        {/* ✅ Champ pour modifier l'image */}
-        <input
-          className="border p-2 w-full mb-2 rounded placeholder:text-black text-black"
-          placeholder="URL de l'image"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
+
+        <div className="mb-4">
+          <label className="block font-semibold text-gray-700">Image :</label>
+          <Uploader onUpload={(url) => setImageUrl(url)} />
+          {imageUrl && (
+            <img src={imageUrl} alt="Produit" className="w-full h-32 object-cover rounded-md mt-2" />
+          )}
+        </div>
 
         <button className="bg-blue-500 text-white p-2 rounded w-full" onClick={handleUpdate}>
           Modifier le produit
