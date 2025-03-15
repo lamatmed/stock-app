@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
+import Image from "next/image";
 
 interface UploaderProps {
   onUpload: (url: string) => void;
@@ -22,7 +23,9 @@ export default function Uploader({ onUpload }: UploaderProps) {
         onUploadError={(error) => alert(`Erreur d'upload: ${error.message}`)}
         className="bg-black hover:bg-blue-700 text-white"
       />
-      {uploadedUrl && <img src={uploadedUrl} alt="Aperçu" className="mt-2 max-w-xs text-black" />}
+      {uploadedUrl && <Image src={uploadedUrl} alt="Aperçu"  width={300} // Remplace par la largeur de ton image
+  height={200} // Remplace par la hauteur de ton image
+  priority />}
     </div>
   );
 }
