@@ -101,7 +101,7 @@ export default function ProductsList() {
                 <FaCubes className="text-green-500 mr-2" /> <span className="font-medium">{p.quantity}</span>
               </p>
               <p className="text-gray-600 flex items-center mt-2">
-                <FaMoneyBillWave className="text-yellow-500 mr-2" /> <span className="font-medium">{p.price_v} UMR</span>
+                <FaMoneyBillWave className="text-yellow-500 mr-2" /> <span className="font-medium">{p.price_v} MRU</span>
               </p>
               <p className="text-gray-600 flex items-center mt-2">
                 <FaCalendarAlt className="text-red-500 mr-2" /> <span className="font-medium">{p.expirationDate}</span>
