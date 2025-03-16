@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { FaFileInvoice, FaBox, FaCalendarAlt, FaDollarSign, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaFileInvoice, FaBox, FaCalendarAlt, FaDollarSign, FaArrowLeft, FaArrowRight, FaSearch } from "react-icons/fa";
 import { getInvoiceHistory } from "../utils/actions";
 import Loader from "../components/Loader";
 
@@ -22,7 +22,8 @@ export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const invoicesPerPage = 5; // Nombre de factures par page
+  const [searchDate, setSearchDate] = useState(""); // État pour la recherche par date
+  const invoicesPerPage = 5; 
 
   useEffect(() => {
     async function fetchInvoices() {
@@ -34,10 +35,17 @@ export default function InvoicesPage() {
     fetchInvoices();
   }, []);
 
+  // Filtrage des factures par date si une date est entrée
+  const filteredInvoices = searchDate
+    ? invoices.filter(invoice =>
+        new Date(invoice.createdAt).toISOString().split('T')[0] === searchDate
+      )
+    : invoices;
+
   // Pagination
   const indexOfLastInvoice = currentPage * invoicesPerPage;
   const indexOfFirstInvoice = indexOfLastInvoice - invoicesPerPage;
-  const currentInvoices = invoices.slice(indexOfFirstInvoice, indexOfLastInvoice);
+  const currentInvoices = filteredInvoices.slice(indexOfFirstInvoice, indexOfLastInvoice);
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
@@ -45,9 +53,20 @@ export default function InvoicesPage() {
         <FaFileInvoice className="mr-2" /> Historique des Factures
       </h1>
 
+      {/* Champ de recherche par date */}
+      <div className="mt-4 flex items-center ">
+        <input
+          type="date"
+          value={searchDate}
+          onChange={(e) => setSearchDate(e.target.value)}
+          className="border p-2 rounded-lg text-black w-100 "
+        />
+        <FaSearch className="ml-2 text-blue-500" />
+      </div>
+
       {isLoading ? (
-    <Loader/>
-      ) : invoices.length === 0 ? (
+        <Loader />
+      ) : filteredInvoices.length === 0 ? (
         <p className="text-black mt-4">Aucune facture trouvée.</p>
       ) : (
         <div className="mt-6 space-y-4">
@@ -88,10 +107,10 @@ export default function InvoicesPage() {
             <span className="text-lg font-semibold text-black">{currentPage}</span>
 
             <button
-              onClick={() => setCurrentPage((prev) => (indexOfLastInvoice < invoices.length ? prev + 1 : prev))}
-              disabled={indexOfLastInvoice >= invoices.length}
+              onClick={() => setCurrentPage((prev) => (indexOfLastInvoice < filteredInvoices.length ? prev + 1 : prev))}
+              disabled={indexOfLastInvoice >= filteredInvoices.length}
               className={`px-4 py-2 text-white rounded-lg ${
-                indexOfLastInvoice >= invoices.length ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                indexOfLastInvoice >= filteredInvoices.length ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
               } flex items-center`}
             >
               Suivant <FaArrowRight className="ml-2" />

@@ -330,3 +330,23 @@ export async function getInvoiceHistory() {
     return [];
   }
 }
+
+export async function getMonthlySales() {
+  try {
+    const sales = await prisma.sale.groupBy({
+      by: ["createdAt"],
+      _sum: { totalPrice: true },
+      orderBy: { createdAt: "asc" },
+    });
+
+    const formattedSales = sales.map((sale) => ({
+      month: new Date(sale.createdAt).toLocaleString("fr-FR", { month: "long" }),
+      totalSales: sale._sum.totalPrice || 0,
+    }));
+
+    return formattedSales;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des ventes mensuelles:", error);
+    return [];
+  }
+}

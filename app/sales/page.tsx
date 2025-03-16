@@ -274,20 +274,20 @@ const generateInvoice = () => {
       </button>
 
       <div className="py-4">
-    <button 
-      className="bg-gray-800 text-white p-2 rounded w-full mb-4 hover:bg-gray-600"
-      onClick={() => setShowSalesHistory(!showSalesHistory)}
-    >
+       <button 
+         className="bg-gray-800 text-white p-2 rounded w-full mb-4 hover:bg-gray-600"
+          onClick={() => setShowSalesHistory(!showSalesHistory)}
+          >
       {showSalesHistory ? "Masquer l'historique" : "Afficher l'historique"}
-    </button>
+       </button>
 
-    {showSalesHistory && (
-      <>
+         {showSalesHistory && (
+           <>
         <h2 className="mt-8 text-lg font-bold text-center text-black">Historique des Ventes</h2>
         <SalesHistory sales={salesHistory} />
-      </>
-    )}
-  </div>
+          </>
+            )}
+      </div>
     </div>
   );
 }
