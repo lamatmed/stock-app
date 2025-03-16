@@ -114,6 +114,7 @@ export default function SalesPage() {
                 toast.error(result.error);
             } else {
                 toast.success("Vente enregistrée avec succès !");
+                generateInvoice()
                 setCart([]);
                 const productList = await getAllProducts();
                 setProducts(productList);
@@ -129,41 +130,82 @@ export default function SalesPage() {
     }
 };
 
+const generateInvoice = () => {
+  if (cart.length === 0) {
+    toast.error("Aucun produit dans le panier pour générer la facture.");
+    return;
+  }
 
-  const generateInvoice = () => {
-    if (cart.length === 0) {
-      toast.error("Aucun produit dans le panier pour générer la facture.");
-      return;
-    }
-  
-    const doc = new jsPDF();
-    const today = new Date();
-    const dateStr = today.toLocaleDateString();
-    const invoiceId = `INV-${today.getTime()}`;
-  
-    // Centrer le titre
-    const title = "Stock-App v1.0.0";
-    doc.setFontSize(16);
-    doc.text(title, doc.internal.pageSize.width / 2, 15, { align: "center" });
-  
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: [80, 80], // Format 80x80mm
+  });
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString();
+  const timeStr = now.toLocaleTimeString();
+  const invoiceId = `INV-${now.getTime()}`;
+
+  // Chargement et affichage du logo
+  const logo = new Image();
+  logo.src = "/lok.jpg"; // Vérifie le chemin du logo
+
+  logo.onload = () => {
+    doc.addImage(logo, "PNG", 25, 5, 30, 20); // Logo centré
+
+    // Centrage du titre
     doc.setFontSize(12);
-    doc.text(`Date: ${dateStr}`, 14, 25);
-    doc.text(`Facture N°: ${invoiceId}`, 14, 35);
-  
-    // Générer la table
+    doc.text("Stock-App v1.0.0", 40, 30, { align: "center" });
+
+    doc.setFontSize(8);
+    doc.text(`Date: ${dateStr} ${timeStr}`, 5, 38);
+    doc.text(`Facture N°: ${invoiceId}`, 5, 43);
+
+    // Génération du tableau DÉCALÉ À GAUCHE (via margin.left)
     autoTable(doc, {
-      head: [["Produit", "Quantité", "Prix Unitaire", "Total"]],
-      body: cart.map((item) => [item.productName, item.quantity, item.unitPrice.toFixed(2), item.totalPrice.toFixed(2)]),
-      startY: 45,
+      startY: 48,
+      margin: { left: 4 }, // Décalage vers la gauche
+      head: [["Produit", "Qté", "P.U", "Total"]],
+      body: cart.map((item) => [
+        item.productName.substring(0, 10),
+        item.quantity,
+        item.unitPrice.toFixed(2),
+        item.totalPrice.toFixed(2),
+      ]),
+      styles: {
+        fontSize: 8,
+        halign: "left", // Alignement à gauche
+      },
+      columnStyles: {
+        0: { cellWidth: 25, halign: "left" }, // Produit (Aligné à gauche)
+        1: { cellWidth: 10, halign: "center" }, // Qté
+        2: { cellWidth: 15, halign: "right" }, // P.U
+        3: { cellWidth: 20, halign: "right" }, // Total
+      },
     });
-  
+
     const finalY = (doc as any).lastAutoTable.finalY || 60;
-    doc.setFontSize(12);
-    doc.text(`Total: ${cart.reduce((sum, item) => sum + item.totalPrice, 0).toFixed(2)} MRU`, 14, finalY + 10);
-  
+
+    doc.setFontSize(10);
+    doc.text(
+      `Total: ${cart.reduce((sum, item) => sum + item.totalPrice, 0).toFixed(2)} MRU`,
+      40,
+      finalY + 5,
+      { align: "center" }
+    );
+
+    // Message de remerciement centré
+    doc.setFontSize(10);
+    doc.text("Merci de votre achat !", 40, finalY + 15, { align: "center" });
+
     doc.save(`facture_${invoiceId}.pdf`);
-    toast.success("Facture téléchargée avec succès !");
+    toast.success("Facture imprimée avec succès !");
   };
+};
+
+
+
   
   return (
     <div className="container mx-auto p-4 max-w-md md:max-w-lg bg-white">
