@@ -19,6 +19,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Stock-App",
   description: "Suivez vos produits",
+  icons: {
+    icon: "/logo.svg", // Remplace par le chemin de ton icône
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -28,13 +33,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en">
+    <html lang="fr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="min-h-screen pb-16 bg-white">
          <Header />
-        {children}
+         <main className="flex-grow">{children}</main>
         <Footer />
 
         <ToastContainer />
